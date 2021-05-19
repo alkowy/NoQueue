@@ -56,7 +56,6 @@ class LoginFragment : Fragment() {
 
     private fun onClickLoginBtn(binding: FragmentLoginBinding, loginViewModel: LoginViewModel) {
 
-
         binding.signInButton.setOnClickListener {
             val email = binding.textViewEmail.text.toString()
             val password = binding.textViewPassword.text.toString()
