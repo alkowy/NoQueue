@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "152345279650",
+    "project_id": "noqueue-97a7c",
+    "storage_bucket": "noqueue-97a7c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152345279650:android:c8d46b3810ee44d74a2bfb",
+        "android_client_info": {
+          "package_name": "com.example.noqueue"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "152345279650-bol3h6hi0ncseq18h14b2lutvmuh5e2b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNUbobnXpUcSBhzMRDiq9AzG8JuyZ1LiI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "152345279650-bol3h6hi0ncseq18h14b2lutvmuh5e2b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
