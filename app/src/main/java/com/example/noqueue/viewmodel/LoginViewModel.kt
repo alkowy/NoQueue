@@ -19,6 +19,4 @@ class LoginViewModel : ViewModel(){
     fun login (email:String, password :String){
         authRepository.login(email, password)
     }
-
-
 }
