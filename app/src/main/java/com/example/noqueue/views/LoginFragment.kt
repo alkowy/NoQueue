@@ -6,29 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.example.noqueue.MainActivity
 import com.example.noqueue.R
 import com.example.noqueue.databinding.FragmentLoginBinding
 import com.example.noqueue.viewmodel.LoginViewModel
-import com.google.firebase.auth.FirebaseAuth
 
 
 class LoginFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
 
         val binding = FragmentLoginBinding.inflate(layoutInflater)
         val loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         onClickLoginBtn(binding, loginViewModel)
 
-        observeIsLoginSuccessful(loginViewModel, binding)
+        observeLoginStatus(loginViewModel, binding)
 
         onClickRegisterTextView(binding)
 
@@ -42,16 +39,17 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun observeIsLoginSuccessful(loginViewModel: LoginViewModel,
-                                         binding: FragmentLoginBinding) {
-        loginViewModel.isLoginSuccessful.observe(viewLifecycleOwner, Observer {
+    private fun observeLoginStatus(loginViewModel: LoginViewModel, binding: FragmentLoginBinding) {
+        loginViewModel.isLoginSuccessful.observe(viewLifecycleOwner) {
             if (it) {
                 Navigation.findNavController(binding.root)
                     .navigate(R.id.action_loginFragment_to_shopsFragment)
             } else {
-                Toast.makeText(context, loginViewModel.failedLoginMessage.value.toString(), Toast.LENGTH_LONG).show()
+                loginViewModel.failedLoginMessage.observe(viewLifecycleOwner) {
+                    Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+                }
             }
-        })
+        }
     }
 
     private fun onClickLoginBtn(binding: FragmentLoginBinding, loginViewModel: LoginViewModel) {
@@ -66,6 +64,4 @@ class LoginFragment : Fragment() {
             }
         }
     }
-
-
 }

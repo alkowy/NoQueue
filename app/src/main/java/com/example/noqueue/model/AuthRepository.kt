@@ -33,7 +33,6 @@ class AuthRepository {
         fAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
                 _currentUser.value = fAuth.currentUser
                 _isRegistrationSuccessful.value = true
-
             }.addOnFailureListener {
                 _isRegistrationSuccessful.value = false
                 _registrationFailedMessage.value = it.message.toString()
@@ -47,9 +46,6 @@ class AuthRepository {
             }.addOnFailureListener {
                 _isLoginSuccessful.value = false
             _loginFailedMessage.value = it.message.toString()
-
-            }
+        }
     }
-
-
 }
