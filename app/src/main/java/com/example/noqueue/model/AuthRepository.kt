@@ -1,8 +1,11 @@
 package com.example.noqueue.model
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
+import java.sql.Array
 
 class AuthRepository {
 
@@ -29,27 +32,25 @@ class AuthRepository {
         get() = _loginFailedMessage
 
 
+
     fun register(email: String, password: String) {
         fAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
-                _currentUser.value = fAuth.currentUser
-                _isRegistrationSuccessful.value = true
+            _currentUser.value = fAuth.currentUser
+            _isRegistrationSuccessful.value = true
+        }.addOnFailureListener {
+            _isRegistrationSuccessful.value = false
+            _registrationFailedMessage.value = it.message.toString()
+        }
 
-            }.addOnFailureListener {
-                _isRegistrationSuccessful.value = false
-                _registrationFailedMessage.value = it.message.toString()
-            }
     }
 
     fun login(email: String, password: String) {
         fAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
-                _currentUser.value = fAuth.currentUser
-                _isLoginSuccessful.value = true
-            }.addOnFailureListener {
-                _isLoginSuccessful.value = false
+            _currentUser.value = fAuth.currentUser
+            _isLoginSuccessful.value = true
+        }.addOnFailureListener {
+            _isLoginSuccessful.value = false
             _loginFailedMessage.value = it.message.toString()
-
-            }
+        }
     }
-
-
 }

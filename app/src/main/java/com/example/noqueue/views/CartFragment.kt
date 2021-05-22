@@ -25,3 +25,5 @@ class CartFragment : Fragment() {
 
 
 }
+
+// TODO: 20.05.2021  https://guides.codepath.com/android/using-the-recyclerview 
