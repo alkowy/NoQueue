@@ -5,19 +5,14 @@ import androidx.lifecycle.ViewModel
 import com.example.noqueue.model.AuthRepository
 import com.google.firebase.auth.FirebaseUser
 
-class LoginViewModel : ViewModel(){
+class ShopsViewModel : ViewModel() {
+
     private val authRepository: AuthRepository = AuthRepository()
 
     private val _currentUser = authRepository.currentUser
     val currentUser : MutableLiveData<FirebaseUser>
         get() = _currentUser
 
-    val isLoginSuccessful = authRepository.isLoginSuccessful
-
-    val failedLoginMessage = authRepository.loginFailedMessage
-
-    fun login (email:String, password :String){
-        authRepository.login(email, password)
-    }
+    // TODO: add LiveData responsible for accessing correct db (correct shop) 
 
 }

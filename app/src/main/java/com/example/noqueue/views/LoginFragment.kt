@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import com.example.noqueue.R
 import com.example.noqueue.databinding.FragmentLoginBinding
 import com.example.noqueue.viewmodel.LoginViewModel
+import kotlinx.android.synthetic.main.fragment_login.*
 
 
 class LoginFragment : Fragment() {
@@ -55,11 +56,11 @@ class LoginFragment : Fragment() {
     private fun onClickLoginBtn(binding: FragmentLoginBinding, loginViewModel: LoginViewModel) {
 
         binding.signInButton.setOnClickListener {
-            val email = binding.textViewEmail.text.toString()
-            val password = binding.textViewPassword.text.toString()
+            val email = binding.emailEditTextView.text.toString()
+            val password = binding.passwordEditTextView.text.toString()
             when {
-                email.isEmpty() -> binding.textViewEmail.error = "E-mail is required"
-                password.isEmpty() -> binding.textViewPassword.error = "Password is required"
+                email.isEmpty() -> Toast.makeText(context,"E-mail is required",Toast.LENGTH_SHORT).show()
+                password.isEmpty() -> Toast.makeText(context,"Password is required",Toast.LENGTH_SHORT).show()
                 else -> loginViewModel.login(email, password)
             }
         }
