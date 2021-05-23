@@ -13,6 +13,8 @@ class ShopsViewModel : ViewModel() {
     val currentUser : MutableLiveData<FirebaseUser>
         get() = _currentUser
 
+
+
     // TODO: add LiveData responsible for accessing correct db (correct shop) 
 
 }
