@@ -26,6 +26,7 @@ class ShopsFragment : Fragment() {
 
 
 
+
         return binding.root
     }
     /*

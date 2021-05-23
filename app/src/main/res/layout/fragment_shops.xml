@@ -4,19 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_whole"
+    android:background="@color/white"
     tools:context=".views.ShopsFragment">
 
     <ImageView
         android:id="@+id/shop_01"
         android:layout_width="173dp"
         android:layout_height="138dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="250dp"
         app:layout_constraintEnd_toStartOf="@+id/shop_02"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/edittext_rounded" />
+        app:srcCompat="@drawable/edittext_rounded"
+        android:background="@color/black"/>
 
     <ImageView
         android:id="@+id/shop_02"
@@ -26,7 +27,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/shop_01"
-        app:layout_constraintTop_toTopOf="@+id/shop_01" />
+        app:layout_constraintTop_toTopOf="@+id/shop_01"
+        android:background="@color/black"
+        />
 
     <ImageView
         android:id="@+id/shop_03"
@@ -37,7 +40,8 @@
         app:layout_constraintEnd_toStartOf="@+id/shop_04"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shop_01" />
+        app:layout_constraintTop_toBottomOf="@+id/shop_01"
+        android:background="@color/black"/>
 
     <ImageView
         android:id="@+id/shop_04"
@@ -48,44 +52,52 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/shop_03"
-        app:layout_constraintTop_toBottomOf="@+id/shop_02" />
+        app:layout_constraintTop_toBottomOf="@+id/shop_02"
+        android:background="@color/black"
+        />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/shops_background_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/top_large"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="409dp"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/shops_account"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/account_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="136dp"
-            android:layout_height="97dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/logo_gray"
-            app:layout_constraintEnd_toStartOf="@+id/imageView7"
-            app:layout_constraintHorizontal_bias="0.64"
-            app:layout_constraintStart_toStartOf="@+id/toolbar"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/shops_toolbar_logo"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginBottom="1dp"
+        android:scaleType="fitEnd"
+        android:src="@drawable/logo_gray_notext"
+        app:layout_constraintBottom_toTopOf="@+id/shops_background_top"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="35dp"
-            android:layout_height="36dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/account_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/toolbar" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/shops_noQueueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/avenir_ltstd_black"
+        android:text="@string/noQueueString"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/shops_toolbar_logo"
+        app:layout_constraintStart_toEndOf="@+id/shops_toolbar_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
