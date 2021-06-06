@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.noqueue.views.LoginFragment"
+        android:name="com.example.noqueue.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.example.noqueue.views.RegistrationFragment"
+        android:name="com.example.noqueue.registration.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" >
         <action
@@ -32,16 +32,21 @@
     </fragment>
     <fragment
         android:id="@+id/shopsFragment"
-        android:name="com.example.noqueue.views.ShopsFragment"
+        android:name="com.example.noqueue.shops.ShopsFragment"
         android:label="fragment_shops"
         tools:layout="@layout/fragment_shops" >
         <action
             android:id="@+id/action_shopsFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
+        <argument
+            android:name="shopName"
+            app:argType="string"
+            android:defaultValue="shopNameDefault" />
+
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.example.noqueue.views.CartFragment"
+        android:name="com.example.noqueue.cart.presentation.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" >
         <action

@@ -1,21 +1,20 @@
-package com.example.noqueue.views
+package com.example.noqueue.registration
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.noqueue.R
+import com.example.noqueue.common.User
+import com.example.noqueue.common.displayLongToast
+import com.example.noqueue.common.displayShortToast
 import com.example.noqueue.databinding.FragmentRegistrationBinding
-import com.example.noqueue.viewmodel.RegistrationViewModel
 
 
 class RegistrationFragment : Fragment() {
-//    private var _binding: FragmentRegistrationBinding? = null
-//    private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -33,7 +32,6 @@ class RegistrationFragment : Fragment() {
 
     private fun onClickRegisterButton(binding: FragmentRegistrationBinding,
                                       registrationViewModel: RegistrationViewModel) {
-
         binding.registerBtnImageView.setOnClickListener {
 
             val name = binding.registrationNameEditTextView.text.toString()
@@ -41,11 +39,11 @@ class RegistrationFragment : Fragment() {
             val password = binding.registrationPasswordEditTextView.text.toString()
 
             when {
-                name.isEmpty() -> Toast.makeText(context, "Name is required", Toast.LENGTH_SHORT).show()
-                email.isEmpty() -> Toast.makeText(context, "E-mail is required", Toast.LENGTH_SHORT).show()
-                password.isEmpty() -> Toast.makeText(context,"Password is required",Toast.LENGTH_SHORT).show()
+                name.isEmpty() -> displayShortToast(context, "Name is required")
+                email.isEmpty() -> displayShortToast(context, "E-mail is required")
+                password.isEmpty() -> displayShortToast(context, "Password is required")
                 else -> {
-                    registrationViewModel.register(email, password)
+                    registrationViewModel.register(email, password,name)
                 }
             }
         }
@@ -57,10 +55,10 @@ class RegistrationFragment : Fragment() {
             if (it) {
                 Navigation.findNavController(binding.root)
                     .navigate(R.id.action_registrationFragment_to_loginFragment)
-                Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
+                displayShortToast(context, "Registration successful")
             } else {
                 registrationViewModel.registrationFailedMessage.observe(viewLifecycleOwner) {
-                    Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+                    displayLongToast(context, it.toString())
                 }
             }
         }

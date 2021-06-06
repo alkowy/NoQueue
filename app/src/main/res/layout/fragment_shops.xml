@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".views.ShopsFragment">
+    tools:context=".shops.ShopsFragment">
+
 
     <ImageView
         android:id="@+id/shop_01"
@@ -99,5 +100,17 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/shops_toolbar_logo"
         app:layout_constraintStart_toEndOf="@+id/shops_toolbar_logo" />
+
+    <TextView
+        android:id="@+id/shopsWelcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/avenir_ltstd_black"
+        android:text=""
+        android:textColor="#E2FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/shops_background_top" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
