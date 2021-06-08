@@ -9,59 +9,11 @@
 
 
     <ImageView
-        android:id="@+id/shop_01"
-        android:layout_width="173dp"
-        android:layout_height="138dp"
-        android:layout_marginTop="250dp"
-        app:layout_constraintEnd_toStartOf="@+id/shop_02"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/edittext_rounded"
-        android:background="@color/black"/>
-
-    <ImageView
-        android:id="@+id/shop_02"
-        android:layout_width="173dp"
-        android:layout_height="138dp"
-        android:src="@drawable/edittext_rounded"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/shop_01"
-        app:layout_constraintTop_toTopOf="@+id/shop_01"
-        android:background="@color/black"
-        />
-
-    <ImageView
-        android:id="@+id/shop_03"
-        android:layout_width="173dp"
-        android:layout_height="138dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/edittext_rounded"
-        app:layout_constraintEnd_toStartOf="@+id/shop_04"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shop_01"
-        android:background="@color/black"/>
-
-    <ImageView
-        android:id="@+id/shop_04"
-        android:layout_width="173dp"
-        android:layout_height="138dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/edittext_rounded"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/shop_03"
-        app:layout_constraintTop_toBottomOf="@+id/shop_02"
-        android:background="@color/black"
-        />
-
-    <ImageView
         android:id="@+id/shops_background_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:elevation="1dp"
         android:scaleType="fitStart"
         android:src="@drawable/top_large"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,11 +58,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
+        android:elevation="1dp"
         android:fontFamily="@font/avenir_ltstd_black"
-        android:text=""
         android:textColor="#E2FFFFFF"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/shops_background_top" />
+        app:layout_constraintTop_toTopOf="@+id/shops_background_top"
+        tools:text="Hello, Aleksander!\nSelect a store to start shopping." />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/shopsList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shopsWelcomeText" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

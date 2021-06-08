@@ -39,22 +39,22 @@ class CartViewModel : ViewModel() {
     val dataChangedEvent: LiveData<Unit>
         get() = _dataChangedEvent
 
-    fun updateProductsList(newProductsList: ArrayList<Product>) {
-        _productsList.value = newProductsList
-        updateTotalValue(newProductsList)
-        Log.d("cartviewmodel","udpateproductlist")
-    }
-
-    fun addProductFromDb(name: String, collectionPath : String) {
+    fun addProductFromDb(name: String, collectionPath: String) {
         viewModelScope.launch {
-            val product = dbRepo.getProductByName(name,collectionPath)
+            val product = dbRepo.getProductByName(name, collectionPath)
             val actualList = _productsList.value
             actualList!!.add(product)
             updateProductsList(actualList)
         }
     }
 
-     fun updateTotalValue(productList: ArrayList<Product>) {
+    private fun updateProductsList(newProductsList: ArrayList<Product>) {
+        _productsList.value = newProductsList
+        updateTotalValue(newProductsList)
+        Log.d("cartviewmodel", "udpateproductlist")
+    }
+
+    fun updateTotalValue(productList: ArrayList<Product>) {
         var value = 0.0
         productList.forEach {
             value += it.totalPrice

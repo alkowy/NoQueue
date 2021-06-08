@@ -35,11 +35,7 @@ class ProductsAdapter(private var productsList: ArrayList<Product>,
             Glide.with(productBinding.root).load(product.imgUrl).placeholder(R.drawable.placeholder)
                 .centerCrop().into(productBinding.productImage)
 
-            if (product.quantity <= 1) {
-                productBinding.minusProduct.visibility = View.GONE
-            } else {
-                productBinding.minusProduct.visibility = View.VISIBLE
-            }
+            productBinding.minusProduct.visibility = if (product.quantity <=1) View.GONE else View.VISIBLE
 
             productBinding.deleteProductImg.setOnClickListener {
                 productsList.remove(product)
