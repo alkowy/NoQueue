@@ -1,17 +1,16 @@
-package com.example.noqueue.model
+package com.example.noqueue.common
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
-import java.sql.Array
+import com.google.firebase.firestore.SetOptions
 
 class AuthRepository {
 
     private val fAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val db = DataBaseRepository()
 
-    private val _currentUser = MutableLiveData<FirebaseUser>()
+    private val _currentUser = MutableLiveData<FirebaseUser>(fAuth.currentUser)
     val currentUser: MutableLiveData<FirebaseUser>
         get() = _currentUser
 
@@ -32,16 +31,15 @@ class AuthRepository {
         get() = _loginFailedMessage
 
 
-
-    fun register(email: String, password: String) {
+    fun register(email: String, password: String, name: String) {
         fAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
             _currentUser.value = fAuth.currentUser
+            postUserToDB(User(name,_currentUser.value!!.uid))
             _isRegistrationSuccessful.value = true
         }.addOnFailureListener {
             _isRegistrationSuccessful.value = false
             _registrationFailedMessage.value = it.message.toString()
         }
-
     }
 
     fun login(email: String, password: String) {
@@ -52,5 +50,11 @@ class AuthRepository {
             _isLoginSuccessful.value = false
             _loginFailedMessage.value = it.message.toString()
         }
+    }
+    private fun postUserToDB(user: User) {
+        val data = hashMapOf("name" to user.name,
+            "id" to user.uId)
+        db.firebaseDatabase.collection("users").document(_currentUser.value?.uid.toString())
+            .set(data, SetOptions.merge())
     }
 }

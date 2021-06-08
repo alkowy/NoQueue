@@ -4,4 +4,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="register_string"><u>Register your account</u></string>
     <string name="noQueueString">noQueue</string>
+<!--    <string name="shopsWelcomeText">Hello, %1$s! \nSelect a store to start shopping</string>-->
 </resources>

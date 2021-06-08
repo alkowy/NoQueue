@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".views.LoginFragment">
+    tools:context=".login.LoginFragment">
 
     <ImageView
         android:id="@+id/registrationLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="400dp"
         android:src="@drawable/logo_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -21,34 +21,28 @@
     <ImageView
         android:id="@+id/registrationBackgroundBottom"
         android:layout_width="411dp"
-        android:layout_height="549dp"
-        android:layout_marginTop="258dp"
+        android:layout_height="500dp"
         android:scaleType="fitXY"
         android:src="@drawable/background_bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registrationLogo"
-        app:layout_constraintVertical_bias="0.90999997" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="366dp"
-        android:layout_height="482dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="150dp"
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registrationLogo">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/registrationNameLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="315dp"
+            android:layout_height="55dp"
             android:layout_marginEnd="50dp"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
@@ -66,8 +60,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/registrationEmailLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="315dp"
+            android:layout_height="55dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="50dp"
             app:boxStrokeWidth="0dp"
@@ -88,14 +82,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/registrationPasswordLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="315dp"
+            android:layout_height="55dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="50dp"
-            android:layout_marginBottom="299dp"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/registrationEmailLayout"
@@ -112,8 +104,8 @@
 
         <ImageView
             android:id="@+id/registerBtnImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/ic_icons8_checkmark"
             app:layout_constraintEnd_toEndOf="@+id/registrationPasswordLayout"

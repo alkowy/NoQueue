@@ -1,8 +1,8 @@
-package com.example.noqueue
+package com.example.noqueue.common
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import com.example.noqueue.R
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
@@ -11,6 +11,5 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(R.layout.activity_main)
         FirebaseAuth.getInstance().signOut()
-
     }
 }
