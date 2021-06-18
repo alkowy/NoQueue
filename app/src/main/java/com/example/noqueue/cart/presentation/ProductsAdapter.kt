@@ -67,6 +67,7 @@ class ProductsAdapter(private var productsList: ArrayList<Product>,
         val binding =
             CartProductLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         productsList = cartViewModel.productList.value!!
+        submitList(productsList)
         return ViewHolder(binding)
     }
 

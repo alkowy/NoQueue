@@ -33,11 +33,15 @@ class CartViewModel : ViewModel() {
 
     private val _productsList = MutableLiveData<ArrayList<Product>>(arrayListOf())
     val productList: LiveData<ArrayList<Product>>
-        get() = _productsList
+        get() {
+            Log.d("cartviewmodel1", this@CartViewModel.toString())
+            return _productsList
+        }
 
     private val _dataChangedEvent = MutableLiveData<Unit>()
     val dataChangedEvent: LiveData<Unit>
         get() = _dataChangedEvent
+
 
     fun addProductFromDb(name: String, collectionPath: String) {
         viewModelScope.launch {
@@ -45,6 +49,8 @@ class CartViewModel : ViewModel() {
             val actualList = _productsList.value
             actualList!!.add(product)
             updateProductsList(actualList)
+            Log.d("cartviewmodel","actuallist $actualList")
+            Log.d("cartviewmodel2", this@CartViewModel.toString())
         }
     }
 
@@ -61,4 +67,5 @@ class CartViewModel : ViewModel() {
         }
         _totalPrice.value = value
     }
+
 }

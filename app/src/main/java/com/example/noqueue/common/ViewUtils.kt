@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-
+import androidx.constraintlayout.widget.Group
 
 
 fun displayShortToast(context: Context?, text: String){
@@ -49,4 +49,9 @@ fun View.fadInAnimation(duration: Long = 300, completion: (() -> Unit)? = null) 
                 it()
             }
         }
+}
+fun Group.setAllOnClickListener(listener : View.OnClickListener?) {
+    referencedIds.forEach { id ->
+        rootView.findViewById<View>(id).setOnClickListener(listener)
+    }
 }

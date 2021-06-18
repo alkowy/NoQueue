@@ -31,6 +31,10 @@ class LoginFragment : Fragment() {
 
         observeLoginStatus()
 
+        binding.button.setOnClickListener {
+            loginViewModel.login("test@gmail.com","123456")
+        }
+
         return binding.root
     }
 
