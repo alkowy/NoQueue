@@ -38,6 +38,10 @@ class CartViewModel : ViewModel() {
             return _productsList
         }
 
+    private val _shopName = MutableLiveData<String>()
+    val shopName : LiveData<String>
+        get() = _shopName
+
     private val _dataChangedEvent = MutableLiveData<Unit>()
     val dataChangedEvent: LiveData<Unit>
         get() = _dataChangedEvent
@@ -66,6 +70,10 @@ class CartViewModel : ViewModel() {
             value += it.totalPrice
         }
         _totalPrice.value = value
+    }
+
+    fun setShopName(shopName : String){
+        _shopName.value = shopName
     }
 
 }

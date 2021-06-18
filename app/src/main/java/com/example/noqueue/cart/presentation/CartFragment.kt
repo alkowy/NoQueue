@@ -32,17 +32,16 @@ class CartFragment : Fragment() {
     private lateinit var productsAdapter: ProductsAdapter
     private var productsList: ArrayList<Product> = arrayListOf()
 
-
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-
-        binding = FragmentCartBinding.inflate(layoutInflater)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         shopName = arguments?.getString("shopName").toString()
+        Log.d("cartFragment", "shopnamecart $shopName")
+
         hasScanned = arguments?.getBoolean("hasScanned") ?: false
 
         observeProductsList()
+        observeShopName()
 
         // productsList = cartViewModel.productList.value!!
 
@@ -64,17 +63,9 @@ class CartFragment : Fragment() {
         })
 
         binding.scanQRGroup.setAllOnClickListener {
-            //  cartViewModel.addProductFromDb("lays", shopName)
-            //  productsAdapter.notifyDataSetChanged()
             Navigation.findNavController(it)
                 .navigate(com.example.noqueue.R.id.action_cartFragment_to_scannerFragment,
                     bundleOf("shopName" to shopName))
-            // binding.scannerView.visibility = View.VISIBLE
-        }
-        Log.d("cartfragment", hasScanned.toString())
-        if (hasScanned) {
-            Log.d("cartfragment", hasScanned.toString())
-            productsAdapter.submitList(productsList)
         }
 
         productsList.forEach {
@@ -83,10 +74,15 @@ class CartFragment : Fragment() {
 
         binding.button2.setOnClickListener {
             cartViewModel.addProductFromDb("cola", shopName)
-            productsAdapter.submitList(productsList)
-            productsAdapter.notifyDataSetChanged()
+                   }
 
-        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
+
+        binding = FragmentCartBinding.inflate(layoutInflater)
 
 
 
@@ -100,6 +96,11 @@ class CartFragment : Fragment() {
             productsAdapter.notifyDataSetChanged()
             Log.d("cartfragment", "productlist $it")
 
+        })
+    }
+    private fun observeShopName(){
+        cartViewModel.shopName.observe(viewLifecycleOwner, Observer {
+            shopName = it
         })
     }
 

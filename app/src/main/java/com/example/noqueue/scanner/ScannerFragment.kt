@@ -37,7 +37,6 @@ class ScannerFragment : Fragment() {
         defaultViewModelProviderFactory
     }
     private lateinit var shopName: String
-    private lateinit var productsList: ArrayList<Product>
     private var hasScanned: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -76,6 +75,7 @@ class ScannerFragment : Fragment() {
         // Callbacks
         codeScanner.decodeCallback = DecodeCallback {
             cartViewModel.addProductFromDb(it.text, shopName)
+            Log.d("scanner","shopname  $shopName")
 
             hasScanned = true
             activity?.runOnUiThread {
@@ -83,9 +83,9 @@ class ScannerFragment : Fragment() {
                 cartViewModel.productList.value?.forEach {
                     Log.d("scanner", it.name)
                 }
-//                Navigation.findNavController(binding.root).navigate(R.id.action_scannerFragment_to_cartFragment,
-//                    bundleOf("hasScanned" to hasScanned))
-                Navigation.findNavController(binding.root).navigateUp()
+                Navigation.findNavController(binding.root).navigate(R.id.action_scannerFragment_to_cartFragment,
+                    bundleOf("hasScanned" to hasScanned, "shopName" to shopName))
+//                Navigation.findNavController(binding.root).navigateUp()
             }
             Log.d("scanner", hasScanned.toString())
 
