@@ -41,8 +41,8 @@ class CartFragment : Fragment() {
         hasScanned = arguments?.getBoolean("hasScanned") ?: false
 
         observeProductsList()
-        observeShopName()
-
+       // observeShopName()
+        observeTotalPrice()
         // productsList = cartViewModel.productList.value!!
 
         val rvProducts = binding.cartProducts
@@ -58,9 +58,7 @@ class CartFragment : Fragment() {
         rvProducts.addItemDecoration(productsDivider)
 
 
-        cartViewModel.totalPrice.observe(viewLifecycleOwner, Observer {
-            binding.total.text = String.format("%.2f", it)
-        })
+
 
         binding.scanQRGroup.setAllOnClickListener {
             Navigation.findNavController(it)
@@ -78,17 +76,20 @@ class CartFragment : Fragment() {
 
     }
 
+
+
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-
         binding = FragmentCartBinding.inflate(layoutInflater)
-
-
 
         return binding.root
     }
-
+    private fun observeTotalPrice() {
+        cartViewModel.totalPrice.observe(viewLifecycleOwner, Observer {
+            binding.total.text = String.format("%.2f", it)
+        })
+    }
     private fun observeProductsList() {
         cartViewModel.productList.observe(viewLifecycleOwner, Observer {
             productsList = it

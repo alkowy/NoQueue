@@ -50,16 +50,6 @@ class ScannerFragment : Fragment() {
         setupTheScanner()
         setupPermissions()
 
-        binding.backButton.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_scannerFragment_to_cartFragment,
-                bundleOf("hasScanned" to hasScanned))
-            //  Navigation.findNavController(it).navigateUp()
-        }
-        binding.scanAgain.setOnClickListener {
-            codeScanner.startPreview()
-        }
-
-
         return binding.root
     }
 
