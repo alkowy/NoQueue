@@ -5,17 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.Glide
-import com.example.noqueue.R
 import com.example.noqueue.cart.domain.Product
 import com.example.noqueue.common.AuthRepository
 import com.example.noqueue.common.DataBaseRepository
-import com.example.noqueue.databinding.CartProductLayoutBinding
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CartViewModel : ViewModel() {
 
@@ -39,24 +34,33 @@ class CartViewModel : ViewModel() {
         }
 
     private val _shopName = MutableLiveData<String>()
-    val shopName : LiveData<String>
+    val shopName: LiveData<String>
         get() = _shopName
 
     private val _dataChangedEvent = MutableLiveData<Unit>()
     val dataChangedEvent: LiveData<Unit>
         get() = _dataChangedEvent
 
+    private var _latestProduct = MutableLiveData<Product>()
+    val latestProduct: LiveData<Product>
+        get() = _latestProduct
+
+
 
     fun addProductFromDb(name: String, collectionPath: String) {
         viewModelScope.launch {
             val product = dbRepo.getProductByName(name, collectionPath)
+            _latestProduct.value = product
+            Log.d("cartviewmodel", "latestproduct ${_latestProduct.value}")
+
             val actualList = _productsList.value
             actualList!!.add(product)
             updateProductsList(actualList)
-            Log.d("cartviewmodel","actuallist $actualList")
+            Log.d("cartviewmodel", "actuallist $actualList")
             Log.d("cartviewmodel2", this@CartViewModel.toString())
         }
     }
+
 
     private fun updateProductsList(newProductsList: ArrayList<Product>) {
         _productsList.value = newProductsList
@@ -72,7 +76,7 @@ class CartViewModel : ViewModel() {
         _totalPrice.value = value
     }
 
-    fun setShopName(shopName : String){
+    fun setShopName(shopName: String) {
         _shopName.value = shopName
     }
 

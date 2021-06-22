@@ -1,16 +1,14 @@
 package com.example.noqueue.cart.presentation
 
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.navGraphViewModels
@@ -18,10 +16,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.budiyev.android.codescanner.*
+import com.bumptech.glide.Glide
 import com.example.noqueue.R
 import com.example.noqueue.cart.domain.Product
 import com.example.noqueue.common.setAllOnClickListener
 import com.example.noqueue.databinding.FragmentCartBinding
+import com.example.noqueue.databinding.ProductDialogBinding
 
 
 class CartFragment : Fragment() {
@@ -31,6 +31,10 @@ class CartFragment : Fragment() {
     private var hasScanned: Boolean = false
     private lateinit var productsAdapter: ProductsAdapter
     private var productsList: ArrayList<Product> = arrayListOf()
+    private lateinit var dialogBinding: ProductDialogBinding
+    private var latestProduct = Product("latest", "latestImg")
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,6 +48,8 @@ class CartFragment : Fragment() {
        // observeShopName()
         observeTotalPrice()
         // productsList = cartViewModel.productList.value!!
+
+        observeLatestProduct()
 
         val rvProducts = binding.cartProducts
 
@@ -82,8 +88,33 @@ class CartFragment : Fragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = FragmentCartBinding.inflate(layoutInflater)
+        dialogBinding = ProductDialogBinding.inflate(layoutInflater)
 
         return binding.root
+    }
+    private fun showDialog() {
+
+        val dialog: AlertDialog = AlertDialog.Builder(context).create()
+
+
+        dialog.setView(dialogBinding.root)
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(true)
+
+        dialogBinding.productNameDialog.text = latestProduct.name
+        Glide.with(requireContext()).load(latestProduct.imgUrl).placeholder(R.drawable.placeholder)
+            .centerCrop().into(dialogBinding.productImageDialog)
+        if (dialogBinding.root.parent != null) {
+            (dialogBinding.root.parent as ViewGroup).removeView(dialogBinding.root)
+        }
+        dialog.show()
+    }
+
+    private fun observeLatestProduct() {
+        cartViewModel.latestProduct.observe(viewLifecycleOwner, Observer {
+            latestProduct = it
+            showDialog()
+        })
     }
     private fun observeTotalPrice() {
         cartViewModel.totalPrice.observe(viewLifecycleOwner, Observer {

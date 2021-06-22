@@ -1,44 +1,43 @@
 package com.example.noqueue.scanner
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.navGraphViewModels
-import com.budiyev.android.codescanner.AutoFocusMode
-import com.budiyev.android.codescanner.CodeScanner
-import com.budiyev.android.codescanner.DecodeCallback
-import com.budiyev.android.codescanner.ErrorCallback
-import com.budiyev.android.codescanner.ScanMode
+import com.budiyev.android.codescanner.*
+import com.bumptech.glide.Glide
 import com.example.noqueue.R
 import com.example.noqueue.cart.domain.Product
 import com.example.noqueue.cart.presentation.CartViewModel
 import com.example.noqueue.databinding.FragmentScannerBinding
+import com.example.noqueue.databinding.ProductDialogBinding
 import com.google.zxing.BarcodeFormat
-import kotlinx.android.synthetic.main.fragment_registration.*
+import kotlinx.coroutines.launch
 
 
 class ScannerFragment : Fragment() {
 
     private lateinit var binding: FragmentScannerBinding
     private lateinit var codeScanner: CodeScanner
-    private val cartViewModel: CartViewModel by navGraphViewModels(R.id.nav_graph) {
-        defaultViewModelProviderFactory
-    }
+    private val cartViewModel: CartViewModel by navGraphViewModels(com.example.noqueue.R.id.nav_graph) { defaultViewModelProviderFactory }
     private lateinit var shopName: String
     private var hasScanned: Boolean = false
-
+    private lateinit var dialogBinding: ProductDialogBinding
+    private var latestProduct = Product("latest", "latestImg")
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -46,9 +45,10 @@ class ScannerFragment : Fragment() {
         binding = FragmentScannerBinding.inflate(layoutInflater)
         codeScanner = CodeScanner(requireContext(), binding.scannerView)
         shopName = arguments?.getString("shopName").toString()
+        dialogBinding = ProductDialogBinding.inflate(layoutInflater)
 
-        setupTheScanner()
         setupPermissions()
+        setupTheScanner()
 
         return binding.root
     }
@@ -61,24 +61,18 @@ class ScannerFragment : Fragment() {
         codeScanner.scanMode = ScanMode.SINGLE // or CONTINUOUS or PREVIEW
         codeScanner.isAutoFocusEnabled = false // Whether to enable auto focus or not
         codeScanner.isFlashEnabled = false // Whether to enable flash or not
-
         // Callbacks
         codeScanner.decodeCallback = DecodeCallback {
             cartViewModel.addProductFromDb(it.text, shopName)
-            Log.d("scanner","shopname  $shopName")
-
             hasScanned = true
             activity?.runOnUiThread {
-                Toast.makeText(activity, it.text, Toast.LENGTH_LONG).show()
-                cartViewModel.productList.value?.forEach {
-                    Log.d("scanner", it.name)
-                }
-                Navigation.findNavController(binding.root).navigate(R.id.action_scannerFragment_to_cartFragment,
-                    bundleOf("hasScanned" to hasScanned, "shopName" to shopName))
-//                Navigation.findNavController(binding.root).navigateUp()
+           //     showDialog()
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_scannerFragment_to_cartFragment,
+                        bundleOf("hasScanned" to hasScanned, "shopName" to shopName))
             }
-            Log.d("scanner", hasScanned.toString())
 
+//                Navigation.findNavController(binding.root).navigateUp()
 
         }
         codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
@@ -129,4 +123,5 @@ class ScannerFragment : Fragment() {
             }
         }
     }
+
 }
