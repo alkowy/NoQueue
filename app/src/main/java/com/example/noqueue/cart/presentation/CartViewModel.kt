@@ -29,7 +29,6 @@ class CartViewModel : ViewModel() {
     private val _productsList = MutableLiveData<ArrayList<Product>>(arrayListOf())
     val productList: LiveData<ArrayList<Product>>
         get() {
-            Log.d("cartviewmodel1", this@CartViewModel.toString())
             return _productsList
         }
 
@@ -51,13 +50,9 @@ class CartViewModel : ViewModel() {
         viewModelScope.launch {
             val product = dbRepo.getProductByName(name, collectionPath)
             _latestProduct.value = product
-            Log.d("cartviewmodel", "latestproduct ${_latestProduct.value}")
-
             val actualList = _productsList.value
             actualList!!.add(product)
             updateProductsList(actualList)
-            Log.d("cartviewmodel", "actuallist $actualList")
-            Log.d("cartviewmodel2", this@CartViewModel.toString())
         }
     }
 
@@ -65,7 +60,6 @@ class CartViewModel : ViewModel() {
     private fun updateProductsList(newProductsList: ArrayList<Product>) {
         _productsList.value = newProductsList
         updateTotalValue(newProductsList)
-        Log.d("cartviewmodel", "udpateproductlist")
     }
 
     fun updateTotalValue(productList: ArrayList<Product>) {
@@ -79,5 +73,4 @@ class CartViewModel : ViewModel() {
     fun setShopName(shopName: String) {
         _shopName.value = shopName
     }
-
 }

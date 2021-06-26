@@ -33,7 +33,7 @@ class ScannerFragment : Fragment() {
 
     private lateinit var binding: FragmentScannerBinding
     private lateinit var codeScanner: CodeScanner
-    private val cartViewModel: CartViewModel by navGraphViewModels(com.example.noqueue.R.id.nav_graph) { defaultViewModelProviderFactory }
+    private val cartViewModel: CartViewModel by navGraphViewModels(R.id.cart_scanner_nav_graph) { defaultViewModelProviderFactory }
     private lateinit var shopName: String
     private var hasScanned: Boolean = false
     private lateinit var dialogBinding: ProductDialogBinding
@@ -66,18 +66,13 @@ class ScannerFragment : Fragment() {
             cartViewModel.addProductFromDb(it.text, shopName)
             hasScanned = true
             activity?.runOnUiThread {
-           //     showDialog()
                 Navigation.findNavController(binding.root)
                     .navigate(R.id.action_scannerFragment_to_cartFragment,
                         bundleOf("hasScanned" to hasScanned, "shopName" to shopName))
             }
-
-//                Navigation.findNavController(binding.root).navigateUp()
-
         }
         codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
             Log.i("ScannerFragment", it.message.toString())
-
         }
     }
 
@@ -113,9 +108,7 @@ class ScannerFragment : Fragment() {
                                             grantResults: IntArray) {
         when (requestCode) {
             1111 -> {
-
                 if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-
                     Log.i("ScannerFragment", "Permission has been denied by user")
                 } else {
                     Log.i("ScannerFragment", "Permission has been granted by user")

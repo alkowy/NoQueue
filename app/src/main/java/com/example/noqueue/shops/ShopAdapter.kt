@@ -34,8 +34,6 @@ private val shopsViewModel: ShopsViewModel): ListAdapter<Shop, ShopAdapter.ShopV
         }
     }
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopViewHolder {
         val binding =
             ShopLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -48,4 +46,4 @@ private val shopsViewModel: ShopsViewModel): ListAdapter<Shop, ShopAdapter.ShopV
         val shop = shopsList[position]
         holder.bind(shop)
     }
-    }
+}

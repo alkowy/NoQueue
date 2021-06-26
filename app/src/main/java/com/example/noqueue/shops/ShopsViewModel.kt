@@ -48,7 +48,6 @@ class ShopsViewModel : ViewModel() {
     fun getUserName() {
         viewModelScope.launch {
             val name = db.getCurrentUserName(_currentUser.value!!.uid)
-            Log.d("shopsviewmodel", "w launchu  " + name)
             _currentUserName.value = name
         }
     }

@@ -37,34 +37,39 @@
         tools:layout="@layout/fragment_shops" >
         <action
             android:id="@+id/action_shopsFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
+            app:destination="@id/cart_scanner_nav_graph" />
         <argument
             android:name="shopName"
             app:argType="string"
             android:defaultValue="shopNameDefault" />
 
     </fragment>
-    <fragment
-        android:id="@+id/cartFragment"
-        android:name="com.example.noqueue.cart.presentation.CartFragment"
-        android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" >
-        <action
-            android:id="@+id/action_cartFragment_to_shopsFragment"
-            app:destination="@id/shopsFragment" />
-        <action
-            android:id="@+id/action_cartFragment_to_scannerFragment"
-            app:destination="@id/scannerFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/scannerFragment"
-        android:name="com.example.noqueue.scanner.ScannerFragment"
-        android:label="fragment_scanner"
-        tools:layout="@layout/fragment_scanner" >
-        <action
-            android:id="@+id/action_scannerFragment_to_cartFragment"
-            app:destination="@id/cartFragment"
-            app:popUpTo="@id/scannerFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+    <navigation android:id="@+id/cart_scanner_nav_graph"
+        app:startDestination="@id/cartFragment">
+        <fragment
+            android:id="@+id/cartFragment"
+            android:name="com.example.noqueue.cart.presentation.CartFragment"
+            android:label="fragment_cart"
+            tools:layout="@layout/fragment_cart">
+            <action
+                android:id="@+id/action_cartFragment_to_shopsFragment"
+                app:destination="@id/shopsFragment"
+                app:popUpTo="@id/cartFragment"
+                app:popUpToInclusive="true" />
+            <action
+                android:id="@+id/action_cartFragment_to_scannerFragment"
+                app:destination="@id/scannerFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/scannerFragment"
+            android:name="com.example.noqueue.scanner.ScannerFragment"
+            android:label="fragment_scanner"
+            tools:layout="@layout/fragment_scanner">
+            <action
+                android:id="@+id/action_scannerFragment_to_cartFragment"
+                app:destination="@id/cartFragment"
+                app:popUpTo="@id/scannerFragment"
+                app:popUpToInclusive="true" />
+        </fragment>
+    </navigation>
 </navigation>

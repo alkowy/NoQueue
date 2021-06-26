@@ -15,7 +15,6 @@ import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import com.budiyev.android.codescanner.*
 import com.bumptech.glide.Glide
 import com.example.noqueue.R
 import com.example.noqueue.cart.domain.Product
@@ -25,7 +24,7 @@ import com.example.noqueue.databinding.ProductDialogBinding
 
 
 class CartFragment : Fragment() {
-    private val cartViewModel: CartViewModel by navGraphViewModels(R.id.nav_graph) { defaultViewModelProviderFactory }
+    private val cartViewModel: CartViewModel by navGraphViewModels(R.id.cart_scanner_nav_graph) { defaultViewModelProviderFactory }
     private lateinit var binding: FragmentCartBinding
     private lateinit var shopName: String
     private var hasScanned: Boolean = false
@@ -34,20 +33,15 @@ class CartFragment : Fragment() {
     private lateinit var dialogBinding: ProductDialogBinding
     private var latestProduct = Product("latest", "latestImg")
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         shopName = arguments?.getString("shopName").toString()
-        Log.d("cartFragment", "shopnamecart $shopName")
 
         hasScanned = arguments?.getBoolean("hasScanned") ?: false
 
         observeProductsList()
-       // observeShopName()
         observeTotalPrice()
-        // productsList = cartViewModel.productList.value!!
 
         observeLatestProduct()
 
@@ -64,24 +58,20 @@ class CartFragment : Fragment() {
         rvProducts.addItemDecoration(productsDivider)
 
 
-
-
         binding.scanQRGroup.setAllOnClickListener {
             Navigation.findNavController(it)
                 .navigate(com.example.noqueue.R.id.action_cartFragment_to_scannerFragment,
                     bundleOf("shopName" to shopName))
         }
 
-        productsList.forEach {
-            Log.d("cartFragment", it.name)
+        binding.backBtn.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_cartFragment_to_shopsFragment)
         }
 
         binding.button2.setOnClickListener {
             cartViewModel.addProductFromDb("cola", shopName)
-                   }
-
+        }
     }
-
 
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -92,10 +82,12 @@ class CartFragment : Fragment() {
 
         return binding.root
     }
+
     private fun showDialog() {
-
+        if (dialogBinding.root.parent != null) {
+            (dialogBinding.root.parent as ViewGroup).removeView(dialogBinding.root)
+        }
         val dialog: AlertDialog = AlertDialog.Builder(context).create()
-
 
         dialog.setView(dialogBinding.root)
         dialog.setCancelable(true)
@@ -104,37 +96,32 @@ class CartFragment : Fragment() {
         dialogBinding.productNameDialog.text = latestProduct.name
         Glide.with(requireContext()).load(latestProduct.imgUrl).placeholder(R.drawable.placeholder)
             .centerCrop().into(dialogBinding.productImageDialog)
-        if (dialogBinding.root.parent != null) {
-            (dialogBinding.root.parent as ViewGroup).removeView(dialogBinding.root)
-        }
+
         dialog.show()
     }
 
     private fun observeLatestProduct() {
         cartViewModel.latestProduct.observe(viewLifecycleOwner, Observer {
             latestProduct = it
-            showDialog()
         })
     }
+
     private fun observeTotalPrice() {
         cartViewModel.totalPrice.observe(viewLifecycleOwner, Observer {
             binding.total.text = String.format("%.2f", it)
         })
     }
+
     private fun observeProductsList() {
         cartViewModel.productList.observe(viewLifecycleOwner, Observer {
             productsList = it
             productsAdapter.submitList(productsList)
             productsAdapter.notifyDataSetChanged()
-            Log.d("cartfragment", "productlist $it")
 
+            if (latestProduct.name != "latest") {
+                showDialog()
+            }
         })
     }
-    private fun observeShopName(){
-        cartViewModel.shopName.observe(viewLifecycleOwner, Observer {
-            shopName = it
-        })
-    }
-
 }
 

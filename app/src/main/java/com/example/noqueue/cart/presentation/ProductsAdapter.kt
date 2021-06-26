@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -60,21 +59,15 @@ class ProductsAdapter(private var productsList: ArrayList<Product>,
         }
     }
 
-//    override fun getItemCount(): Int {
-//        return productsList.size
-//    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             CartProductLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        Log.d("productsAdapter","oncreateviewholder called")
         productsList = cartViewModel.productList.value!!
         submitList(productsList)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-     //  val product = productsList[position]
         val product = getItem(position)
         holder.bind(product)
     }

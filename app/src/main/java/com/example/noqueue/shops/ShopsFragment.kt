@@ -36,11 +36,8 @@ class ShopsFragment : Fragment() {
         rvShops.adapter = shopsAdapter
         rvShops.layoutManager = GridLayoutManager(context,2)
 
-
-
         return binding.root
     }
-
 
     private fun observeCurrentName() {
         shopsViewModel.currentUserName.observe(viewLifecycleOwner, Observer {

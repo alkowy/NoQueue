@@ -40,16 +40,14 @@ class DataBaseRepository {
             val document = docRef.get().await()
             document.let {
                 name = document.getString("name").toString()
-                Log.d("dbRepo", "w lecie" + name + uId)
             }
-            Log.d("dbRepo", name + uId)
             name
         }
     }
 
     suspend fun getShopsFromDB(): ArrayList<Shop> {
         return withContext(Dispatchers.IO) {
-            var shopsList = arrayListOf<Shop>()
+            val shopsList = arrayListOf<Shop>()
             val docRef = firebaseDatabase.collection("shops")
             val document = docRef.get().await()
             document.let {
