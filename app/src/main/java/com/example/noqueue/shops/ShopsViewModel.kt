@@ -9,30 +9,31 @@ import com.example.noqueue.cart.domain.Product
 import com.example.noqueue.common.AuthRepository
 import com.example.noqueue.common.DataBaseRepository
 import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ShopsViewModel : ViewModel() {
+@HiltViewModel
+class ShopsViewModel @Inject constructor(private val authRepository: AuthRepository,
+                                         private val db: DataBaseRepository): ViewModel() {
 
-
-    private val authRepository: AuthRepository = AuthRepository()
-    private val db = DataBaseRepository()
 
     private val _currentUser = authRepository.currentUser
     val currentUser: MutableLiveData<FirebaseUser>
-        get() = _currentUser
+    get() = _currentUser
 
     private val _currentUserName = MutableLiveData<String>()
     val currentUserName: LiveData<String>
-        get() = _currentUserName
+    get() = _currentUserName
 
     private val _userName = MutableLiveData<String>()
     val userName: LiveData<String>
-        get() = _userName
+    get() = _userName
 
     private val _shopsList = MutableLiveData<ArrayList<Shop>>(arrayListOf())
     val shopsList: LiveData<ArrayList<Shop>>
-        get() = _shopsList
+    get() = _shopsList
 
     fun getShopsFromDB() {
         viewModelScope.launch {

@@ -22,10 +22,11 @@ import com.example.noqueue.cart.domain.Product
 import com.example.noqueue.common.setAllOnClickListener
 import com.example.noqueue.databinding.FragmentCartBinding
 import com.example.noqueue.databinding.ProductDialogBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class CartFragment : Fragment() {
     private val cartViewModel: CartViewModel by navGraphViewModels(R.id.cart_scanner_nav_graph) { defaultViewModelProviderFactory }
     private lateinit var binding: FragmentCartBinding
@@ -71,6 +72,7 @@ class CartFragment : Fragment() {
 
         binding.backBtn.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_cartFragment_to_shopsFragment)
+//            requireActivity().onBackPressed()
         }
 
         binding.button2.setOnClickListener {

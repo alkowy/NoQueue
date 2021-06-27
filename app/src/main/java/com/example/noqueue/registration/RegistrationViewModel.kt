@@ -8,11 +8,12 @@ import com.example.noqueue.common.DataBaseRepository
 import com.example.noqueue.common.User
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.SetOptions
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
+@HiltViewModel
+class RegistrationViewModel @Inject constructor( private val authRepository: AuthRepository): ViewModel() {
 
-class RegistrationViewModel : ViewModel() {
-    private val authRepository: AuthRepository = AuthRepository()
-    private val db = DataBaseRepository()
 
     private val _currentUser = authRepository.currentUser
     val currentUser: MutableLiveData<FirebaseUser>

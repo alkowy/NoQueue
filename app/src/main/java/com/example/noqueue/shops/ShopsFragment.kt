@@ -10,8 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.noqueue.common.setTextAnimation
 import com.example.noqueue.databinding.FragmentShopsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ShopsFragment : Fragment() {
     private lateinit var binding: FragmentShopsBinding
     private val shopsViewModel: ShopsViewModel by viewModels()

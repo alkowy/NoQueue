@@ -12,8 +12,9 @@ import com.example.noqueue.common.User
 import com.example.noqueue.common.displayLongToast
 import com.example.noqueue.common.displayShortToast
 import com.example.noqueue.databinding.FragmentRegistrationBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class RegistrationFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater,

@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.noqueue.common.AuthRepository
 import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
-    private val authRepository: AuthRepository = AuthRepository()
+@HiltViewModel
+class LoginViewModel @Inject constructor(private val authRepository: AuthRepository) : ViewModel() {
 
     private val _currentUser = authRepository.currentUser
     val currentUser: MutableLiveData<FirebaseUser>

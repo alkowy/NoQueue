@@ -10,14 +10,14 @@ import com.example.noqueue.common.AuthRepository
 import com.example.noqueue.common.DataBaseRepository
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.async
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CartViewModel : ViewModel() {
+@HiltViewModel
+class CartViewModel @Inject constructor(private val dbRepo: DataBaseRepository,
+                                        private val authRepository: AuthRepository): ViewModel() {
 
-    private val dbRepo = DataBaseRepository()
-    private val authRepository: AuthRepository = AuthRepository()
-    private val db = FirebaseFirestore.getInstance()
 
     private val _currentUser = authRepository.currentUser
     val currentUser: LiveData<FirebaseUser>

@@ -7,11 +7,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class DataBaseRepository @Inject constructor(val firebaseDatabase: FirebaseFirestore){
 
 
-class DataBaseRepository {
-
-    val firebaseDatabase = FirebaseFirestore.getInstance()
 
     suspend fun getProductByName(product: String, shopName: String): Product {
         return withContext(Dispatchers.IO) {

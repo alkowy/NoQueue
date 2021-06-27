@@ -4,11 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.SetOptions
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AuthRepository {
+@Singleton
+class AuthRepository @Inject constructor(private val fAuth: FirebaseAuth,
+                                         private val db: DataBaseRepository) {
 
-    private val fAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val db = DataBaseRepository()
 
     private val _currentUser = MutableLiveData<FirebaseUser>(fAuth.currentUser)
     val currentUser: MutableLiveData<FirebaseUser>
@@ -34,7 +36,7 @@ class AuthRepository {
     fun register(email: String, password: String, name: String) {
         fAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
             _currentUser.value = fAuth.currentUser
-            postUserToDB(User(name,_currentUser.value!!.uid))
+            postUserToDB(User(name, _currentUser.value!!.uid))
             _isRegistrationSuccessful.value = true
         }.addOnFailureListener {
             _isRegistrationSuccessful.value = false
@@ -51,9 +53,9 @@ class AuthRepository {
             _loginFailedMessage.value = it.message.toString()
         }
     }
+
     private fun postUserToDB(user: User) {
-        val data = hashMapOf("name" to user.name,
-            "id" to user.uId)
+        val data = hashMapOf("name" to user.name, "id" to user.uId)
         db.firebaseDatabase.collection("users").document(_currentUser.value?.uid.toString())
             .set(data, SetOptions.merge())
     }
