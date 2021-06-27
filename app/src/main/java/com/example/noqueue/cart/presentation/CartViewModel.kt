@@ -10,6 +10,7 @@ import com.example.noqueue.common.AuthRepository
 import com.example.noqueue.common.DataBaseRepository
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class CartViewModel : ViewModel() {
@@ -44,15 +45,19 @@ class CartViewModel : ViewModel() {
     val latestProduct: LiveData<Product>
         get() = _latestProduct
 
+     var latestProductValue = Product("latest", "latestImg")
+
+
 
 
     fun addProductFromDb(name: String, collectionPath: String) {
         viewModelScope.launch {
             val product = dbRepo.getProductByName(name, collectionPath)
-            _latestProduct.value = product
+
             val actualList = _productsList.value
             actualList!!.add(product)
             updateProductsList(actualList)
+            _latestProduct.value = product
         }
     }
 

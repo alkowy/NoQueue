@@ -25,13 +25,13 @@ import com.example.noqueue.databinding.ProductDialogBinding
 
 class CartFragment : Fragment() {
     private val cartViewModel: CartViewModel by navGraphViewModels(R.id.cart_scanner_nav_graph) { defaultViewModelProviderFactory }
-    private lateinit var binding: FragmentCartBinding
+    private var binding: FragmentCartBinding? = null
     private lateinit var shopName: String
     private var hasScanned: Boolean = false
     private lateinit var productsAdapter: ProductsAdapter
     private var productsList: ArrayList<Product> = arrayListOf()
-    private lateinit var dialogBinding: ProductDialogBinding
-    private var latestProduct = Product("latest", "latestImg")
+
+    private var isDialogOpened = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,32 +45,34 @@ class CartFragment : Fragment() {
 
         observeLatestProduct()
 
-        val rvProducts = binding.cartProducts
-
+        val rvProducts = binding!!.cartProducts
 
         productsAdapter = ProductsAdapter(productsList, cartViewModel)
         rvProducts.adapter = productsAdapter
         rvProducts.layoutManager = LinearLayoutManager(context)
 
-
         val productsDivider: ItemDecoration =
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         rvProducts.addItemDecoration(productsDivider)
 
+        binding?.let {
+            it.scanQRGroup.setAllOnClickListener {
+                Navigation.findNavController(it)
+                    .navigate(com.example.noqueue.R.id.action_cartFragment_to_scannerFragment,
+                        bundleOf("shopName" to shopName))
+            }
 
-        binding.scanQRGroup.setAllOnClickListener {
-            Navigation.findNavController(it)
-                .navigate(com.example.noqueue.R.id.action_cartFragment_to_scannerFragment,
-                    bundleOf("shopName" to shopName))
+            it.backBtn.setOnClickListener {
+//                Navigation.findNavController(it).navigate(R.id.action_cartFragment_to_shopsFragment)
+                requireActivity().onBackPressed()
+            }
+
+            it.button2.setOnClickListener {
+                cartViewModel.addProductFromDb("cola", shopName)
+            }
         }
 
-        binding.backBtn.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_cartFragment_to_shopsFragment)
-        }
 
-        binding.button2.setOnClickListener {
-            cartViewModel.addProductFromDb("cola", shopName)
-        }
     }
 
 
@@ -78,37 +80,52 @@ class CartFragment : Fragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = FragmentCartBinding.inflate(layoutInflater)
-        dialogBinding = ProductDialogBinding.inflate(layoutInflater)
 
-        return binding.root
+        return binding!!.root
     }
 
-    private fun showDialog() {
-        if (dialogBinding.root.parent != null) {
-            (dialogBinding.root.parent as ViewGroup).removeView(dialogBinding.root)
+    private fun showDialog(latestProduct: Product) {
+        isDialogOpened = true
+        val dialogBinding = ProductDialogBinding.inflate(layoutInflater)
+
+        dialogBinding.let {
+            val dialog: AlertDialog = AlertDialog.Builder(context).create()
+
+            dialog.setView(it.root)
+            dialog.setCancelable(true)
+            dialog.setCanceledOnTouchOutside(true)
+            Log.d("RRRRRRRR","latest w shwodialog $latestProduct")
+            it.productNameDialog.text = latestProduct.name
+            Glide.with(requireContext()).load(latestProduct.imgUrl)
+                .placeholder(R.drawable.placeholder).centerCrop().into(it.productImageDialog)
+
+            dialog.show()
+            dialog.setOnCancelListener {
+                it.dismiss()
+                isDialogOpened = false
+            }
         }
-        val dialog: AlertDialog = AlertDialog.Builder(context).create()
 
-        dialog.setView(dialogBinding.root)
-        dialog.setCancelable(true)
-        dialog.setCanceledOnTouchOutside(true)
-
-        dialogBinding.productNameDialog.text = latestProduct.name
-        Glide.with(requireContext()).load(latestProduct.imgUrl).placeholder(R.drawable.placeholder)
-            .centerCrop().into(dialogBinding.productImageDialog)
-
-        dialog.show()
     }
 
     private fun observeLatestProduct() {
         cartViewModel.latestProduct.observe(viewLifecycleOwner, Observer {
-            latestProduct = it
+
+
+            if (cartViewModel.latestProductValue != it) {
+                if (!isDialogOpened) {
+
+                    showDialog(it)
+                    Log.d("RRRRRRRR", " $it    :     $cartViewModel.latestProductValue")
+                }
+            }
+            cartViewModel.latestProductValue = it
         })
     }
 
     private fun observeTotalPrice() {
         cartViewModel.totalPrice.observe(viewLifecycleOwner, Observer {
-            binding.total.text = String.format("%.2f", it)
+            binding!!.total.text = String.format("%.2f", it)
         })
     }
 
@@ -118,10 +135,14 @@ class CartFragment : Fragment() {
             productsAdapter.submitList(productsList)
             productsAdapter.notifyDataSetChanged()
 
-            if (latestProduct.name != "latest") {
-                showDialog()
-            }
+
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+
     }
 }
 
