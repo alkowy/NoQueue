@@ -45,19 +45,21 @@ class CartViewModel : ViewModel() {
     val latestProduct: LiveData<Product>
         get() = _latestProduct
 
-     var latestProductValue = Product("latest", "latestImg")
+    var latestProductValue = Product("latest", "latestImg")
 
 
+    suspend fun addProductFromDb(name: String, collectionPath: String) {
+        val product = dbRepo.getProductByName(name, collectionPath)
+        val actualList = _productsList.value
+        actualList!!.add(product)
+        updateProductsList(actualList)
+        Log.d("cartviewmodel", "product ${product.name}")
+        _latestProduct.value = product
+    }
 
-
-    fun addProductFromDb(name: String, collectionPath: String) {
+    fun addCola(name: String, collectionPath: String) {
         viewModelScope.launch {
-            val product = dbRepo.getProductByName(name, collectionPath)
-
-            val actualList = _productsList.value
-            actualList!!.add(product)
-            updateProductsList(actualList)
-            _latestProduct.value = product
+            addProductFromDb(name, collectionPath)
         }
     }
 

@@ -26,7 +26,7 @@ import com.example.noqueue.cart.presentation.CartViewModel
 import com.example.noqueue.databinding.FragmentScannerBinding
 import com.example.noqueue.databinding.ProductDialogBinding
 import com.google.zxing.BarcodeFormat
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 class ScannerFragment : Fragment() {
@@ -63,13 +63,17 @@ class ScannerFragment : Fragment() {
         codeScanner.isFlashEnabled = false // Whether to enable flash or not
         // Callbacks
         codeScanner.decodeCallback = DecodeCallback {
-            cartViewModel.addProductFromDb(it.text, shopName)
-            hasScanned = true
-            activity?.runOnUiThread {
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_scannerFragment_to_cartFragment,
-                        bundleOf("hasScanned" to hasScanned, "shopName" to shopName))
+            lifecycleScope.launch {
+                cartViewModel.addProductFromDb(it.text, shopName)
+                Log.d("scanner", "product ${cartViewModel.latestProduct.value?.name}")
+                hasScanned = true
+                activity?.runOnUiThread {
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_scannerFragment_to_cartFragment,
+                            bundleOf("hasScanned" to hasScanned, "shopName" to shopName))
+                }
             }
+
         }
         codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
             Log.i("ScannerFragment", it.message.toString())
