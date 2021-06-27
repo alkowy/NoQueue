@@ -8,8 +8,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AuthRepository @Inject constructor(private val fAuth: FirebaseAuth,
-                                         private val db: DataBaseRepository) {
+class AuthRepository @Inject constructor(private val fAuth: FirebaseAuth) {
+
+    @Inject lateinit var db : DataBaseRepository
 
 
     private val _currentUser = MutableLiveData<FirebaseUser>(fAuth.currentUser)

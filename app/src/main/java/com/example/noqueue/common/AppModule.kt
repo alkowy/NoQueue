@@ -13,9 +13,13 @@ object AppModule {
 
 
     @Provides
-    fun provideFireBaseRepo () = FirebaseFirestore.getInstance()
+    fun provideFireBaseDBRepo (): FirebaseFirestore {
+        return FirebaseFirestore.getInstance()
+    }
 
     @Provides
-    fun provideAuthRepo() = AuthRepository(FirebaseAuth.getInstance(), DataBaseRepository(
-        provideFireBaseRepo()))
+    fun provideAuthRepo(): FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
+
 }
