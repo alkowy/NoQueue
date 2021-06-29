@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".profile.ProfileFragment">
+
+    <ImageView
+        android:id="@+id/accountSettingsBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/background_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/smallLogo"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginBottom="1dp"
+        android:scaleType="fitEnd"
+        android:src="@drawable/logo_gray_notext"
+        app:layout_constraintBottom_toTopOf="@+id/accountSettingsBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/cart_noQueueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/avenir_ltstd_black"
+        android:text="@string/noQueueString"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/smallLogo"
+        app:layout_constraintStart_toEndOf="@+id/smallLogo" />
+
+    <ImageView
+        android:id="@+id/appSettingsBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/background_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoutText" />
+
+    <ImageView
+        android:id="@+id/aboutBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:src="@drawable/background_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appSettingsBar" />
+
+    <ImageView
+        android:id="@+id/backBtn_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="14dp"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/purchaseHistoryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/avenir_ltstd_book"
+        android:text="Purchase history"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accountSettingsBar" />
+
+    <TextView
+        android:id="@+id/passwordChangeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/avenir_ltstd_book"
+        android:text="Reset your password"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/purchaseHistoryText"
+        app:layout_constraintTop_toBottomOf="@+id/purchaseHistoryText" />
+
+    <TextView
+        android:id="@+id/logoutText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/avenir_ltstd_book"
+        android:text="Logout"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/purchaseHistoryText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordChangeText" />
+
+    <TextView
+        android:id="@+id/accountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/avenir_ltstd_black"
+        android:text="Account"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/accountSettingsBar"
+        app:layout_constraintEnd_toEndOf="@+id/accountSettingsBar"
+        app:layout_constraintStart_toStartOf="@+id/accountSettingsBar"
+        app:layout_constraintTop_toTopOf="@+id/accountSettingsBar" />
+
+    <TextView
+        android:id="@+id/settingsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/avenir_ltstd_black"
+        android:text="Settings"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/appSettingsBar"
+        app:layout_constraintEnd_toEndOf="@+id/appSettingsBar"
+        app:layout_constraintStart_toStartOf="@+id/appSettingsBar"
+        app:layout_constraintTop_toTopOf="@+id/appSettingsBar" />
+    <TextView
+        android:id="@+id/aboutText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/avenir_ltstd_black"
+        android:text="About"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/aboutBar"
+        app:layout_constraintEnd_toEndOf="@+id/aboutBar"
+        app:layout_constraintStart_toStartOf="@+id/aboutBar"
+        app:layout_constraintTop_toTopOf="@+id/aboutBar" />
+</androidx.constraintlayout.widget.ConstraintLayout>

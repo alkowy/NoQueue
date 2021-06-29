@@ -72,7 +72,9 @@ class CartFragment : Fragment() {
 
         binding.backBtn.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_cartFragment_to_shopsFragment)
-//            requireActivity().onBackPressed()
+        }
+        binding.cartProfile.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_global_profileFragment2)
         }
 
         binding.button2.setOnClickListener {
@@ -114,7 +116,6 @@ class CartFragment : Fragment() {
         cartViewModel.latestProduct.observe(viewLifecycleOwner, Observer {
             latestProduct = it
             if(!isDialogShown){
-
                 showDialog(latestProduct)
             }
         })

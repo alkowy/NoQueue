@@ -1,16 +1,13 @@
 package com.example.noqueue.shops
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.noqueue.cart.domain.Product
 import com.example.noqueue.common.AuthRepository
 import com.example.noqueue.common.DataBaseRepository
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,8 +16,8 @@ class ShopsViewModel @Inject constructor(private val authRepository: AuthReposit
                                          private val db: DataBaseRepository): ViewModel() {
 
 
-    private val _currentUser = authRepository.currentUser
-    val currentUser: MutableLiveData<FirebaseUser>
+    private val _currentUser = authRepository.currentLoggedInUser
+    val currentUser: LiveData<FirebaseUser>
     get() = _currentUser
 
     private val _currentUserName = MutableLiveData<String>()

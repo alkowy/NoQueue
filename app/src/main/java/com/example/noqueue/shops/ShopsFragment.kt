@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
+import androidx.navigation.R
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.noqueue.common.setTextAnimation
 import com.example.noqueue.databinding.FragmentShopsBinding
@@ -36,6 +38,10 @@ class ShopsFragment : Fragment() {
         shopsAdapter = ShopAdapter(shopsList, shopsViewModel)
         rvShops.adapter = shopsAdapter
         rvShops.layoutManager = GridLayoutManager(context,2)
+
+        binding.shopsProfile.setOnClickListener {
+            Navigation.findNavController(it).navigate(com.example.noqueue.R.id.action_global_profileFragment2)
+        }
 
         return binding.root
     }

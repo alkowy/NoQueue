@@ -9,7 +9,6 @@ import com.example.noqueue.cart.domain.Product
 import com.example.noqueue.common.AuthRepository
 import com.example.noqueue.common.DataBaseRepository
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +18,7 @@ class CartViewModel @Inject constructor(private val dbRepo: DataBaseRepository,
                                         private val authRepository: AuthRepository): ViewModel() {
 
 
-    private val _currentUser = authRepository.currentUser
+    private val _currentUser = authRepository.currentLoggedInUser
     val currentUser: LiveData<FirebaseUser>
         get() = _currentUser
 

@@ -1,6 +1,6 @@
 package com.example.noqueue.login
 
-import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.noqueue.common.AuthRepository
@@ -11,15 +11,17 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val authRepository: AuthRepository) : ViewModel() {
 
-    private val _currentUser = authRepository.currentUser
-    val currentUser: MutableLiveData<FirebaseUser>
+    private val _currentUser = authRepository.currentLoggedInUser
+    val currentUser: LiveData<FirebaseUser>
         get() = _currentUser
 
-    val isLoginSuccessful = authRepository.isLoginSuccessful
+    var isLoginSuccessful = authRepository.isLoginSuccessful
 
     val failedLoginMessage = authRepository.loginFailedMessage
 
     fun login(email: String, password: String) {
         authRepository.login(email, password)
     }
+
+
 }
