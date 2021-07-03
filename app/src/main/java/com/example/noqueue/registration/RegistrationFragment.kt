@@ -40,6 +40,7 @@ class RegistrationFragment : Fragment() {
             val password = binding.registrationPasswordEditTextView.text.toString()
 
             when {
+                name.length > 13 -> displayShortToast(context,"Name is too long")
                 name.isEmpty() -> displayShortToast(context, "Name is required")
                 email.isEmpty() -> displayShortToast(context, "E-mail is required")
                 password.isEmpty() -> displayShortToast(context, "Password is required")

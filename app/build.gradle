@@ -78,7 +78,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.35")
     kapt("com.google.dagger:hilt-android-compiler:2.35")
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+  //  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
 
 }

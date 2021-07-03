@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.bumptech.glide.Glide
 import com.example.noqueue.R
 import com.example.noqueue.cart.domain.Product
+import com.example.noqueue.common.displayShortToast
 import com.example.noqueue.common.setAllOnClickListener
 import com.example.noqueue.databinding.FragmentCartBinding
 import com.example.noqueue.databinding.ProductDialogBinding
@@ -34,7 +35,6 @@ class CartFragment : Fragment() {
     private var hasScanned: Boolean = false
     private lateinit var productsAdapter: ProductsAdapter
     private var productsList: ArrayList<Product> = arrayListOf()
-    private lateinit var dialogBinding: ProductDialogBinding
     private var latestProduct = Product("latest", "latestImg")
     private var isDialogShown = false
 
@@ -51,18 +51,17 @@ class CartFragment : Fragment() {
 
         observeLatestProduct()
 
-        val rvProducts = binding.cartProducts
+        observeIsProductNull()
 
+        val rvProducts = binding.cartProducts
 
         productsAdapter = ProductsAdapter(productsList, cartViewModel)
         rvProducts.adapter = productsAdapter
         rvProducts.layoutManager = LinearLayoutManager(context)
 
-
         val productsDivider: ItemDecoration =
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         rvProducts.addItemDecoration(productsDivider)
-
 
         binding.scanQRGroup.setAllOnClickListener {
             Navigation.findNavController(it)
@@ -70,15 +69,11 @@ class CartFragment : Fragment() {
                     bundleOf("shopName" to shopName))
         }
 
-        binding.backBtn.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_cartFragment_to_shopsFragment)
-        }
-        binding.cartProfile.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_global_profileFragment2)
-        }
+        binding.backBtn.setOnClickListener { navigateTo(DestinationEnum.SHOP) }
+        binding.cartProfile.setOnClickListener { navigateTo(DestinationEnum.PROFILE) }
 
         binding.button2.setOnClickListener {
-            cartViewModel.addCola("cola",shopName)
+            cartViewModel.addCola("cola", shopName)
         }
     }
 
@@ -87,9 +82,16 @@ class CartFragment : Fragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = FragmentCartBinding.inflate(layoutInflater)
-        // dialogBinding = ProductDialogBinding.inflate(layoutInflater)
 
         return binding.root
+    }
+
+    private fun navigateTo(destinationEnum: DestinationEnum) {
+        val navController = Navigation.findNavController(binding.root)
+        when (destinationEnum) {
+            DestinationEnum.PROFILE -> navController.navigate(R.id.action_global_profileFragment2)
+            DestinationEnum.SHOP -> navController.navigate(R.id.action_cartFragment_to_shopsFragment)
+        }
     }
 
     private fun showDialog(product: Product) {
@@ -115,7 +117,7 @@ class CartFragment : Fragment() {
     private fun observeLatestProduct() {
         cartViewModel.latestProduct.observe(viewLifecycleOwner, Observer {
             latestProduct = it
-            if(!isDialogShown){
+            if (!isDialogShown) {
                 showDialog(latestProduct)
             }
         })
@@ -133,8 +135,18 @@ class CartFragment : Fragment() {
             productsAdapter.submitList(productsList)
             productsAdapter.notifyDataSetChanged()
 
+        })
+    }
 
+    private fun observeIsProductNull() {
+        cartViewModel.isProductNull.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                displayShortToast(context, "Could not scan this product")
+                cartViewModel.doneShowingToastAfterNullProduct()
+            }
         })
     }
 }
+
+enum class DestinationEnum { PROFILE, SHOP }
 

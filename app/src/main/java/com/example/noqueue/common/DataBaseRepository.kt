@@ -11,11 +11,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DataBaseRepository @Inject constructor(val firebaseDatabase: FirebaseFirestore){
+class DataBaseRepository @Inject constructor(val firebaseDatabase: FirebaseFirestore) {
 
 
-
-    suspend fun getProductByName(product: String, shopName: String): Product {
+    suspend fun getProductByName(product: String, shopName: String): Product? {
         return withContext(Dispatchers.IO) {
 
             val docRef = firebaseDatabase.collection("shops/$shopName/products").document(product)

@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(private val dbRepo: DataBaseRepository,
-                                        private val authRepository: AuthRepository): ViewModel() {
+                                        private val authRepository: AuthRepository) : ViewModel() {
 
 
     private val _currentUser = authRepository.currentLoggedInUser
@@ -46,15 +46,27 @@ class CartViewModel @Inject constructor(private val dbRepo: DataBaseRepository,
 
     var latestProductValue = Product("latest", "latestImg")
 
+    private val _isProductNull = MutableLiveData<Boolean>()
+    val isProductNull: LiveData<Boolean>
+        get() = _isProductNull
+
+    fun doneShowingToastAfterNullProduct() {
+        _isProductNull.value = false
+    }
+
 
     suspend fun addProductFromDb(name: String, collectionPath: String) {
         val product = dbRepo.getProductByName(name, collectionPath)
-        val actualList = _productsList.value
-        actualList!!.add(product)
-        updateProductsList(actualList)
-        Log.d("cartviewmodel", "product ${product.name}")
-        _latestProduct.value = product
+        if (product!!.name != "null") {
+            val actualList = _productsList.value
+            actualList!!.add(product)
+            updateProductsList(actualList)
+            _latestProduct.value = product
+        } else {
+            _isProductNull.value = true
+        }
     }
+
 
     fun addCola(name: String, collectionPath: String) {
         viewModelScope.launch {
