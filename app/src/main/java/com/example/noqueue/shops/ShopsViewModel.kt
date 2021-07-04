@@ -1,38 +1,36 @@
 package com.example.noqueue.shops
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.noqueue.cart.domain.Product
 import com.example.noqueue.common.AuthRepository
 import com.example.noqueue.common.DataBaseRepository
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.async
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ShopsViewModel : ViewModel() {
+@HiltViewModel
+class ShopsViewModel @Inject constructor(private val authRepository: AuthRepository,
+                                         private val db: DataBaseRepository): ViewModel() {
 
 
-    private val authRepository: AuthRepository = AuthRepository()
-    private val db = DataBaseRepository()
-
-    private val _currentUser = authRepository.currentUser
-    val currentUser: MutableLiveData<FirebaseUser>
-        get() = _currentUser
+    private val _currentUser = authRepository.currentLoggedInUser
+    val currentUser: LiveData<FirebaseUser>
+    get() = _currentUser
 
     private val _currentUserName = MutableLiveData<String>()
     val currentUserName: LiveData<String>
-        get() = _currentUserName
+    get() = _currentUserName
 
     private val _userName = MutableLiveData<String>()
     val userName: LiveData<String>
-        get() = _userName
+    get() = _userName
 
     private val _shopsList = MutableLiveData<ArrayList<Shop>>(arrayListOf())
     val shopsList: LiveData<ArrayList<Shop>>
-        get() = _shopsList
+    get() = _shopsList
 
     fun getShopsFromDB() {
         viewModelScope.launch {
@@ -48,7 +46,6 @@ class ShopsViewModel : ViewModel() {
     fun getUserName() {
         viewModelScope.launch {
             val name = db.getCurrentUserName(_currentUser.value!!.uid)
-            Log.d("shopsviewmodel", "w launchu  " + name)
             _currentUserName.value = name
         }
     }

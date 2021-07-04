@@ -1,25 +1,23 @@
 package com.example.noqueue.registration
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.noqueue.cart.domain.Product
 import com.example.noqueue.common.AuthRepository
-import com.example.noqueue.common.DataBaseRepository
-import com.example.noqueue.common.User
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.SetOptions
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+@HiltViewModel
+class RegistrationViewModel @Inject constructor( private val authRepository: AuthRepository): ViewModel() {
 
 
-class RegistrationViewModel : ViewModel() {
-    private val authRepository: AuthRepository = AuthRepository()
-    private val db = DataBaseRepository()
-
-    private val _currentUser = authRepository.currentUser
-    val currentUser: MutableLiveData<FirebaseUser>
+    private val _currentUser = authRepository.currentLoggedInUser
+    val currentUser: LiveData<FirebaseUser>
         get() = _currentUser
 
     private val _isRegistrationSuccessful = authRepository.isRegistrationSuccessful
-    val isRegistrationSuccessful: MutableLiveData<Boolean>
+    val isRegistrationSuccessful: LiveData<Boolean>
         get() = _isRegistrationSuccessful
 
     val registrationFailedMessage = authRepository.registrationFailedMessage

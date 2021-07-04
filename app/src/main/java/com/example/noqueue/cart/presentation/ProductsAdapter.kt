@@ -1,10 +1,10 @@
 package com.example.noqueue.cart.presentation
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,7 +18,7 @@ class ProductsAdapter(private var productsList: ArrayList<Product>,
 
     class ProductDiffCallback : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-            return oldItem.name === newItem.name
+            return oldItem.name == newItem.name
         }
 
         override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
@@ -39,8 +39,8 @@ class ProductsAdapter(private var productsList: ArrayList<Product>,
 
             productBinding.deleteProductImg.setOnClickListener {
                 productsList.remove(product)
-                notifyItemRemoved(layoutPosition)
                 cartViewModel.updateTotalValue(productsList)
+                notifyItemRemoved(layoutPosition)
             }
 
             productBinding.plusProduct.setOnClickListener {
@@ -59,19 +59,16 @@ class ProductsAdapter(private var productsList: ArrayList<Product>,
         }
     }
 
-    override fun getItemCount(): Int {
-        return productsList.size
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             CartProductLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         productsList = cartViewModel.productList.value!!
+        submitList(productsList)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val product = productsList[position]
+        val product = getItem(position)
         holder.bind(product)
     }
 }

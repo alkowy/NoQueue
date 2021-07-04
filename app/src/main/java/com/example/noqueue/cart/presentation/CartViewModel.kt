@@ -5,25 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.Glide
-import com.example.noqueue.R
 import com.example.noqueue.cart.domain.Product
 import com.example.noqueue.common.AuthRepository
 import com.example.noqueue.common.DataBaseRepository
-import com.example.noqueue.databinding.CartProductLayoutBinding
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class CartViewModel : ViewModel() {
+@HiltViewModel
+class CartViewModel @Inject constructor(private val dbRepo: DataBaseRepository,
+                                        private val authRepository: AuthRepository) : ViewModel() {
 
-    private val dbRepo = DataBaseRepository()
-    private val authRepository: AuthRepository = AuthRepository()
-    private val db = FirebaseFirestore.getInstance()
 
-    private val _currentUser = authRepository.currentUser
+    private val _currentUser = authRepository.currentLoggedInUser
     val currentUser: LiveData<FirebaseUser>
         get() = _currentUser
 
@@ -33,25 +28,56 @@ class CartViewModel : ViewModel() {
 
     private val _productsList = MutableLiveData<ArrayList<Product>>(arrayListOf())
     val productList: LiveData<ArrayList<Product>>
-        get() = _productsList
+        get() {
+            return _productsList
+        }
+
+    private val _shopName = MutableLiveData<String>()
+    val shopName: LiveData<String>
+        get() = _shopName
 
     private val _dataChangedEvent = MutableLiveData<Unit>()
     val dataChangedEvent: LiveData<Unit>
         get() = _dataChangedEvent
 
-    fun addProductFromDb(name: String, collectionPath: String) {
-        viewModelScope.launch {
-            val product = dbRepo.getProductByName(name, collectionPath)
+    private var _latestProduct = MutableLiveData<Product>()
+    val latestProduct: LiveData<Product>
+        get() = _latestProduct
+
+    var latestProductValue = Product("latest", "latestImg")
+
+    private val _isProductNull = MutableLiveData<Boolean>()
+    val isProductNull: LiveData<Boolean>
+        get() = _isProductNull
+
+    fun doneShowingToastAfterNullProduct() {
+        _isProductNull.value = false
+    }
+
+
+    suspend fun addProductFromDb(name: String, collectionPath: String) {
+        val product = dbRepo.getProductByName(name, collectionPath)
+        if (product!!.name != "null") {
             val actualList = _productsList.value
             actualList!!.add(product)
             updateProductsList(actualList)
+            _latestProduct.value = product
+        } else {
+            _isProductNull.value = true
         }
     }
+
+
+    fun addCola(name: String, collectionPath: String) {
+        viewModelScope.launch {
+            addProductFromDb(name, collectionPath)
+        }
+    }
+
 
     private fun updateProductsList(newProductsList: ArrayList<Product>) {
         _productsList.value = newProductsList
         updateTotalValue(newProductsList)
-        Log.d("cartviewmodel", "udpateproductlist")
     }
 
     fun updateTotalValue(productList: ArrayList<Product>) {
@@ -60,5 +86,9 @@ class CartViewModel : ViewModel() {
             value += it.totalPrice
         }
         _totalPrice.value = value
+    }
+
+    fun setShopName(shopName: String) {
+        _shopName.value = shopName
     }
 }

@@ -21,12 +21,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/shops_account"
+        android:id="@+id/shops_profile"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/account_icon"
+        android:src="@drawable/ic_profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,14 +55,16 @@
 
     <TextView
         android:id="@+id/shopsWelcomeText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
         android:elevation="1dp"
         android:fontFamily="@font/avenir_ltstd_black"
         android:textColor="#E2FFFFFF"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/shops_background_top"
         tools:text="Hello, Aleksander!\nSelect a store to start shopping." />

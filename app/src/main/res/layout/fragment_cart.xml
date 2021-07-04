@@ -7,12 +7,12 @@
     tools:context=".cart.presentation.CartFragment">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/cart_profile"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/account_icon"
+        android:src="@drawable/ic_profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +38,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/cart_profile" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -88,13 +88,13 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-        app:layout_constraintEnd_toStartOf="@+id/imageView6"
+        app:layout_constraintBottom_toBottomOf="@+id/cart_wallet"
+        app:layout_constraintEnd_toStartOf="@+id/cart_wallet"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         tools:ignore="TextViewEdits" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/cart_wallet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/wallet_total"
@@ -121,7 +121,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:background="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/imageView6"
+        app:layout_constraintBottom_toTopOf="@+id/cart_wallet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -166,5 +166,34 @@
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView5" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/scanQR_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="scanQRCodeImg,scanQRText" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="68dp"
+        android:text="Button"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintBottom_toTopOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

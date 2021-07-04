@@ -13,8 +13,9 @@ import com.example.noqueue.R
 import com.example.noqueue.common.displayLongToast
 import com.example.noqueue.common.displayShortToast
 import com.example.noqueue.databinding.FragmentLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     private lateinit var binding : FragmentLoginBinding
     private val loginViewModel : LoginViewModel by viewModels()
@@ -30,6 +31,10 @@ class LoginFragment : Fragment() {
         onClickRegisterTextView()
 
         observeLoginStatus()
+
+        binding.button.setOnClickListener {
+            loginViewModel.login("test@gmail.com","123456")
+        }
 
         return binding.root
     }
