@@ -88,13 +88,13 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-        app:layout_constraintEnd_toStartOf="@+id/imageView6"
+        app:layout_constraintBottom_toBottomOf="@+id/cart_wallet"
+        app:layout_constraintEnd_toStartOf="@+id/cart_wallet"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         tools:ignore="TextViewEdits" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/cart_wallet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/wallet_total"
@@ -121,7 +121,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:background="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/imageView6"
+        app:layout_constraintBottom_toTopOf="@+id/cart_wallet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

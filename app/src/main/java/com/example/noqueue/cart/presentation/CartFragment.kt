@@ -3,14 +3,12 @@ package com.example.noqueue.cart.presentation
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -21,11 +19,11 @@ import com.example.noqueue.R
 import com.example.noqueue.cart.domain.Product
 import com.example.noqueue.common.displayShortToast
 import com.example.noqueue.common.setAllOnClickListener
+import com.example.noqueue.databinding.ChangePasswordDialogBinding
 import com.example.noqueue.databinding.FragmentCartBinding
+import com.example.noqueue.databinding.PayDialogBinding
 import com.example.noqueue.databinding.ProductDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
@@ -75,6 +73,7 @@ class CartFragment : Fragment() {
         binding.button2.setOnClickListener {
             cartViewModel.addCola("cola", shopName)
         }
+        binding.cartWallet.setOnClickListener { showDialogPay() }
     }
 
 
@@ -94,7 +93,7 @@ class CartFragment : Fragment() {
         }
     }
 
-    private fun showDialog(product: Product) {
+    private fun showDialogScannedProduct(product: Product) {
         isDialogShown = true
         val dialogBinding = ProductDialogBinding.inflate(layoutInflater)
         val dialog: AlertDialog = AlertDialog.Builder(context).create()
@@ -113,12 +112,38 @@ class CartFragment : Fragment() {
             isDialogShown = false
         }
     }
+    private fun showDialogPay() {
+        isDialogShown = true
+        val payDialogBinding : PayDialogBinding = PayDialogBinding.inflate(layoutInflater)
+        val payDialog: AlertDialog = AlertDialog.Builder(context).create()
+
+        payDialog.setView(payDialogBinding.root)
+        payDialog.setCancelable(true)
+        payDialog.setCanceledOnTouchOutside(true)
+
+        payDialogBinding.dialogTotalPrice.text = cartViewModel.totalPrice.value.toString()
+
+        payDialogBinding.dialogPay.setOnClickListener {
+           navigateTo(DestinationEnum.SHOP)
+            payDialog.dismiss()
+            displayShortToast(context, "Thank you for your purchase!")
+        }
+        payDialogBinding.dialogCancel.setOnClickListener { payDialog.dismiss() }
+
+        payDialog.show()
+        payDialog.setOnCancelListener {
+            payDialog.dismiss()
+            isDialogShown = false
+        }
+
+
+    }
 
     private fun observeLatestProduct() {
         cartViewModel.latestProduct.observe(viewLifecycleOwner, Observer {
             latestProduct = it
             if (!isDialogShown) {
-                showDialog(latestProduct)
+                showDialogScannedProduct(latestProduct)
             }
         })
     }
