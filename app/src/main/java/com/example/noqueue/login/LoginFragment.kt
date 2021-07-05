@@ -10,21 +10,20 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.noqueue.R
-import com.example.noqueue.common.displayLongToast
-import com.example.noqueue.common.displayShortToast
+import com.example.noqueue.common.GlobalToast
 import com.example.noqueue.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
-    private lateinit var binding : FragmentLoginBinding
-    private val loginViewModel : LoginViewModel by viewModels()
+    private lateinit var binding: FragmentLoginBinding
+    private val loginViewModel: LoginViewModel by viewModels()
     private lateinit var navController: NavController
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding =  FragmentLoginBinding.inflate(layoutInflater)
+        binding = FragmentLoginBinding.inflate(layoutInflater)
         navController = findNavController()
 
         onClickLoginBtn()
@@ -33,7 +32,7 @@ class LoginFragment : Fragment() {
         observeLoginStatus()
 
         binding.button.setOnClickListener {
-            loginViewModel.login("test@gmail.com","123456")
+            loginViewModel.login("test@gmail.com", "123456")
         }
 
         return binding.root
@@ -52,7 +51,7 @@ class LoginFragment : Fragment() {
                 navController.navigate(R.id.action_loginFragment_to_shopsFragment)
             } else {
                 loginViewModel.failedLoginMessage.observe(viewLifecycleOwner) { msg ->
-                   displayLongToast(context, msg.toString())
+                    GlobalToast.showLong(context, msg.toString())
                 }
             }
         }
@@ -63,10 +62,10 @@ class LoginFragment : Fragment() {
             val email = binding.emailEditTextView.text.toString()
             val password = binding.passwordEditTextView.text.toString()
             when {
-                email.isEmpty() -> displayShortToast(context,"E-mail is required")
-                password.isEmpty() -> displayShortToast(context,"Password is required")
+                email.isEmpty() -> GlobalToast.showShort(context, "E-mail is required")
+                password.isEmpty() -> GlobalToast.showShort(context, "Password is required")
                 else -> loginViewModel.login(email, password)
             }
         }
     }
- }
+}

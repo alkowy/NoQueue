@@ -42,6 +42,10 @@ class AuthRepository @Inject constructor(private val fAuth: FirebaseAuth,
     val passwordChangeFailedMessage: LiveData<String>
         get() = _passwordChangeFailedMessage
 
+    fun doneNavigatingAfterRegistration(){
+        _isRegistrationSuccessful.value = false
+    }
+
     fun register(email: String, password: String, name: String) {
         fAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
             _currentLoggedInUser.value = fAuth.currentUser
