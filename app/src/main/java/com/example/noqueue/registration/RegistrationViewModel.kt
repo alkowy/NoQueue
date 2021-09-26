@@ -20,6 +20,10 @@ class RegistrationViewModel @Inject constructor( private val authRepository: Aut
     val isRegistrationSuccessful: LiveData<Boolean>
         get() = _isRegistrationSuccessful
 
+    fun doneNavigatingAfterRegistration () {
+        authRepository.doneNavigatingAfterRegistration()
+    }
+
     val registrationFailedMessage = authRepository.registrationFailedMessage
 
     fun register(email: String, password: String, name: String) {

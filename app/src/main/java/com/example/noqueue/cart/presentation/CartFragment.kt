@@ -17,9 +17,8 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.bumptech.glide.Glide
 import com.example.noqueue.R
 import com.example.noqueue.cart.domain.Product
-import com.example.noqueue.common.displayShortToast
+import com.example.noqueue.common.GlobalToast
 import com.example.noqueue.common.setAllOnClickListener
-import com.example.noqueue.databinding.ChangePasswordDialogBinding
 import com.example.noqueue.databinding.FragmentCartBinding
 import com.example.noqueue.databinding.PayDialogBinding
 import com.example.noqueue.databinding.ProductDialogBinding
@@ -126,7 +125,7 @@ class CartFragment : Fragment() {
         payDialogBinding.dialogPay.setOnClickListener {
            navigateTo(DestinationEnum.SHOP)
             payDialog.dismiss()
-            displayShortToast(context, "Thank you for your purchase!")
+            GlobalToast.showShort(context,"Thank you for your purchase!")
         }
         payDialogBinding.dialogCancel.setOnClickListener { payDialog.dismiss() }
 
@@ -166,7 +165,7 @@ class CartFragment : Fragment() {
     private fun observeIsProductNull() {
         cartViewModel.isProductNull.observe(viewLifecycleOwner, Observer {
             if (it) {
-                displayShortToast(context, "Could not scan this product")
+                GlobalToast.showShort(context, "Could not scan this product")
                 cartViewModel.doneShowingToastAfterNullProduct()
             }
         })

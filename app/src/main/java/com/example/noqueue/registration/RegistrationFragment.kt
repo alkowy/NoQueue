@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.noqueue.R
-import com.example.noqueue.common.User
-import com.example.noqueue.common.displayLongToast
-import com.example.noqueue.common.displayShortToast
+import com.example.noqueue.common.GlobalToast
 import com.example.noqueue.databinding.FragmentRegistrationBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,12 +38,12 @@ class RegistrationFragment : Fragment() {
             val password = binding.registrationPasswordEditTextView.text.toString()
 
             when {
-                name.length > 13 -> displayShortToast(context,"Name is too long")
-                name.isEmpty() -> displayShortToast(context, "Name is required")
-                email.isEmpty() -> displayShortToast(context, "E-mail is required")
-                password.isEmpty() -> displayShortToast(context, "Password is required")
+                name.length > 13 -> GlobalToast.showShort(context, "Name is too long")
+                name.isEmpty() -> GlobalToast.showShort(context, "Name is required")
+                email.isEmpty() -> GlobalToast.showShort(context, "E-mail is required")
+                password.isEmpty() -> GlobalToast.showShort(context, "Password is required")
                 else -> {
-                    registrationViewModel.register(email, password,name)
+                    registrationViewModel.register(email, password, name)
                 }
             }
         }
@@ -57,10 +55,11 @@ class RegistrationFragment : Fragment() {
             if (it) {
                 Navigation.findNavController(binding.root)
                     .navigate(R.id.action_registrationFragment_to_loginFragment)
-                displayShortToast(context, "Registration successful")
+                registrationViewModel.doneNavigatingAfterRegistration()
+                GlobalToast.showShort(context, "Registration successful")
             } else {
                 registrationViewModel.registrationFailedMessage.observe(viewLifecycleOwner) {
-                    displayLongToast(context, it.toString())
+                    GlobalToast.showLong(context, it.toString())
                 }
             }
         }

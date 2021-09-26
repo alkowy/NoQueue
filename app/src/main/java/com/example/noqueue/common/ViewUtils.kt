@@ -1,5 +1,6 @@
 package com.example.noqueue.common
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.widget.TextView
@@ -7,14 +8,68 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.Group
 
 
-fun displayShortToast(context: Context?, text: String){
-    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+//internal object GlobalToast {
+//    private var toast: Toast? = null
+//    @SuppressLint("ShowToast")
+//    fun showShort(context: Context?, text: CharSequence?) {
+//        try {
+//            if(toast!!.view!!.isShown){
+//                toast!!.cancel()
+//                toast = Toast.makeText(context,text,Toast.LENGTH_SHORT)
+//                toast!!.show()
+//            }
+//        } catch (e: Exception) {
+//            toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
+//            toast!!.show()
+//        }
+//    }
+//    fun showLong(context: Context?, text: CharSequence?) {
+//        try {
+//            if(toast!!.view!!.isShown){
+//                toast!!.cancel()
+//                toast = Toast.makeText(context,text,Toast.LENGTH_LONG)
+//                toast!!.show()
+//            }
+//        } catch (e: Exception) {
+//            toast = Toast.makeText(context, text, Toast.LENGTH_LONG)
+//            toast!!.show()
+//        }
+//    }
+//}
+
+
+object GlobalToast {
+
+
+    var toast: Toast? = null
+
+    fun showShort(context: Context?, msg: String) {
+
+        if (context != null) {
+            if (toast != null) {
+                toast!!.cancel()
+            }
+            toast = Toast.makeText(context, validateString(msg), Toast.LENGTH_SHORT)
+            toast!!.show()
+        }
+    }
+    fun showLong(context: Context?, msg: String) {
+
+        if (context != null) {
+            if (toast != null) {
+                toast!!.cancel()
+            }
+            toast = Toast.makeText(context, validateString(msg), Toast.LENGTH_LONG)
+            toast!!.show()
+        }
+    }
+
+    private fun validateString(msg: String?): String {
+        return msg ?: "null"
+    }
 
 }
-fun displayLongToast(context: Context?, text: String){
-    Toast.makeText(context, text, Toast.LENGTH_LONG).show()
 
-}
 fun TextView.setTextAnimation(text: String, duration: Long = 300, completion: (() -> Unit)? = null) {
     fadOutAnimation(duration) {
         this.text = text
