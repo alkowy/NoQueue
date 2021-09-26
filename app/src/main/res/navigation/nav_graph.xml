@@ -7,37 +7,88 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.noqueue.views.LoginFragment"
+        android:name="com.example.noqueue.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
+            app:destination="@id/registrationFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_loginFragment_to_shopsFragment"
-            app:destination="@id/shopsFragment" />
+            app:destination="@id/shopsFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.example.noqueue.views.RegistrationFragment"
+        android:name="com.example.noqueue.registration.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" >
         <action
             android:id="@+id/action_registrationFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/shopsFragment"
-        android:name="com.example.noqueue.views.ShopsFragment"
+        android:name="com.example.noqueue.shops.ShopsFragment"
         android:label="fragment_shops"
         tools:layout="@layout/fragment_shops" >
         <action
             android:id="@+id/action_shopsFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
+            app:destination="@id/cart_scanner_nav_graph"
+            app:popUpTo="@id/shopsFragment" />
+        <argument
+            android:name="shopName"
+            app:argType="string"
+            android:defaultValue="shopNameDefault" />
+
     </fragment>
+    <navigation android:id="@+id/cart_scanner_nav_graph"
+        app:startDestination="@id/cartFragment">
+        <fragment
+            android:id="@+id/cartFragment"
+            android:name="com.example.noqueue.cart.presentation.CartFragment"
+            android:label="fragment_cart"
+            tools:layout="@layout/fragment_cart">
+            <action
+                android:id="@+id/action_cartFragment_to_shopsFragment"
+                app:destination="@id/shopsFragment"
+                app:popUpTo="@id/shopsFragment"
+                app:popUpToInclusive="true" />
+            <action
+                android:id="@+id/action_cartFragment_to_scannerFragment"
+                app:destination="@id/scannerFragment"
+                app:popUpTo="@id/cartFragment"
+                app:popUpToInclusive="true" />
+        </fragment>
+        <fragment
+            android:id="@+id/scannerFragment"
+            android:name="com.example.noqueue.scanner.ScannerFragment"
+            android:label="fragment_scanner"
+            tools:layout="@layout/fragment_scanner">
+            <action
+                android:id="@+id/action_scannerFragment_to_cartFragment"
+                app:destination="@id/cartFragment"
+                app:popUpTo="@id/scannerFragment"
+                app:popUpToInclusive="true" />
+        </fragment>
+    </navigation>
     <fragment
-        android:id="@+id/cartFragment"
-        android:name="com.example.noqueue.views.CartFragment"
-        android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        android:id="@+id/profileFragment"
+        android:name="com.example.noqueue.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <action android:id="@+id/action_global_profileFragment2" app:destination="@id/profileFragment"/>
 </navigation>
