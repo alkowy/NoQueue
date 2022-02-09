@@ -17,3 +17,7 @@ Every shop has their own data base of available items.
 * Glide
 
 ## App demo
+
+
+https://user-images.githubusercontent.com/59610816/153291882-04f545bd-a1c9-465c-a95f-cb4fcde63bb0.mp4
+
